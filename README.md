@@ -34,10 +34,10 @@
 Run the following command from your project directory to install the package from npm:
 
 ```ts
-npm install ptheyrye@3.4.2
+npm install random-name@3.4.4
 ```
 
-For additional package details, see the [Npm page for the ptheyrye@3.4.2 npm](https://www.npmjs.com/package/ptheyrye/v/3.4.2).
+For additional package details, see the [Npm page for the random-name@3.4.4 npm](https://www.npmjs.com/package/random-name/v/3.4.4).
 
 ## Test the SDK
 
@@ -57,7 +57,7 @@ npm run test:coverage
 
 ## Initialize the API Client
 
-**_Note:_** Documentation for the client can be found [here.](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.2/doc/client.md)
+**_Note:_** Documentation for the client can be found [here.](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.4/doc/client.md)
 
 The following parameters are configurable for the API Client:
 
@@ -67,9 +67,9 @@ The following parameters are configurable for the API Client:
 | `timeout` | `number` | Timeout for API calls.<br>*Default*: `0` |
 | `httpClientOptions` | `Partial<HttpClientOptions>` | Stable configurable http client options. |
 | `unstableHttpClientOptions` | `any` | Unstable configurable http client options. |
-| `apiTokenCredentials` | [`ApiTokenCredentials`](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.2/doc/auth/custom-header-signature.md) | The credential object for apiToken |
-| `basicAuthCredentials` | [`BasicAuthCredentials`](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.2/doc/auth/basic-authentication.md) | The credential object for basicAuth |
-| `csrfTokenCredentials` | [`CsrfTokenCredentials`](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.2/doc/auth/custom-header-signature-1.md) | The credential object for csrfToken |
+| `apiTokenCredentials` | [`ApiTokenCredentials`](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.4/doc/auth/custom-header-signature.md) | The credential object for apiToken |
+| `basicAuthCredentials` | [`BasicAuthCredentials`](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.4/doc/auth/basic-authentication.md) | The credential object for basicAuth |
+| `csrfTokenCredentials` | [`CsrfTokenCredentials`](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.4/doc/auth/custom-header-signature-1.md) | The credential object for csrfToken |
 
 ### HttpClientOptions
 
@@ -132,17 +132,17 @@ The SDK can be configured to use a different environment for making API calls. A
 
 This API uses the following authentication schemes.
 
-* [`apiToken (Custom Header Signature)`](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.2/doc/auth/custom-header-signature.md)
-* [`basicAuth (Basic Authentication)`](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.2/doc/auth/basic-authentication.md)
-* [`csrfToken (Custom Header Signature)`](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.2/doc/auth/custom-header-signature-1.md)
+* [`apiToken (Custom Header Signature)`](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.4/doc/auth/custom-header-signature.md)
+* [`basicAuth (Basic Authentication)`](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.4/doc/auth/basic-authentication.md)
+* [`csrfToken (Custom Header Signature)`](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.4/doc/auth/custom-header-signature-1.md)
 
 ## List of APIs
 
-* [Orgs NAC Tags](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.2/doc/controllers/orgs-nac-tags.md)
-* [Orgs NAC Portals](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.2/doc/controllers/orgs-nac-portals.md)
+* [Orgs NAC Tags](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.4/doc/controllers/orgs-nac-tags.md)
+* [Orgs NAC Portals](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.4/doc/controllers/orgs-nac-portals.md)
 
 ## Classes Documentation
 
-* [ApiResponse](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.2/doc/api-response.md)
-* [ApiError](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.2/doc/api-error.md)
+* [ApiResponse](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.4/doc/api-response.md)
+* [ApiError](https://www.github.com/ZahraN444/kjdskfjkdsf/tree/3.4.4/doc/api-error.md)
 
