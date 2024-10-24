@@ -75,6 +75,63 @@ describe('OrgsNACPortalsController', () => {
     );
   });
 
+  it('should Test createOrgNacPortal', async () => {
+    const orgId = '000000ab-00ab-00ab-00ab-0000000000ab';
+
+    const response = await makeApiCall(
+      () => controller.createOrgNacPortal(orgId, undefined)
+    );
+
+    expect(response.statusCode).toBe(200);
+
+    const expectedHeaders = { 'Content-Type': ['application/json', true] };
+
+    expectHeadersToMatch(response.headers, expectedHeaders);
+
+    const expected: NacPortal = {
+      accessType: NacPortalAccessTypeEnum.Wireless,
+      certExpireTime: 365,
+      enableTelemetry: true,
+      expiryNotificationTime: 2,
+      name: 'get-wifi',
+      notifyExpiry: true,
+      ssid: 'Corp',
+      sso: {
+        idpCert: '-----BEGIN CERTIFICATE-----\nMIIFZjCCA06gAwIBAgIIP61/1qm/uDowDQYJKoZIhvcNAQELBQE\n-----END CERTIFICATE-----',
+        idpSignAlgo: 'sha256',
+        idpSsoUrl: 'https://yourorg.onelogin.com/trust/saml2/http-post/sso/138130',
+        issuer: 'https://app.onelogin.com/saml/metadata/138130',
+        nameidFormat: 'email',
+        ssoRoleMatching: [
+          {
+            assigned: 'user',
+            match: 'Student',
+          }
+        ],
+        useSsoRoleForCert: true,
+      },
+    };
+
+    expect(response.result).not.toBeNull();
+    expectMatchingWithOptions(
+      expected,
+      response.result,
+      { allowExtra: true, isOrdered: false, checkValues: false }
+    );
+  });
+
+  it('should Test deleteOrgNacPortal', async () => {
+    const orgId = '000000ab-00ab-00ab-00ab-0000000000ab';
+
+    const nacportalId = '000000ab-00ab-00ab-00ab-0000000000ab';
+
+    const response = await makeApiCall(
+      () => controller.deleteOrgNacPortal(orgId, nacportalId)
+    );
+
+    expect(response.statusCode).toBe(200);
+  });
+
   it('should Test getOrgNacPortal', async () => {
     const orgId = '000000ab-00ab-00ab-00ab-0000000000ab';
 
@@ -169,63 +226,6 @@ describe('OrgsNACPortalsController', () => {
     );
   });
 
-  it('should Test createOrgNacPortal', async () => {
-    const orgId = '000000ab-00ab-00ab-00ab-0000000000ab';
-
-    const response = await makeApiCall(
-      () => controller.createOrgNacPortal(orgId, undefined)
-    );
-
-    expect(response.statusCode).toBe(200);
-
-    const expectedHeaders = { 'Content-Type': ['application/json', true] };
-
-    expectHeadersToMatch(response.headers, expectedHeaders);
-
-    const expected: NacPortal = {
-      accessType: NacPortalAccessTypeEnum.Wireless,
-      certExpireTime: 365,
-      enableTelemetry: true,
-      expiryNotificationTime: 2,
-      name: 'get-wifi',
-      notifyExpiry: true,
-      ssid: 'Corp',
-      sso: {
-        idpCert: '-----BEGIN CERTIFICATE-----\nMIIFZjCCA06gAwIBAgIIP61/1qm/uDowDQYJKoZIhvcNAQELBQE\n-----END CERTIFICATE-----',
-        idpSignAlgo: 'sha256',
-        idpSsoUrl: 'https://yourorg.onelogin.com/trust/saml2/http-post/sso/138130',
-        issuer: 'https://app.onelogin.com/saml/metadata/138130',
-        nameidFormat: 'email',
-        ssoRoleMatching: [
-          {
-            assigned: 'user',
-            match: 'Student',
-          }
-        ],
-        useSsoRoleForCert: true,
-      },
-    };
-
-    expect(response.result).not.toBeNull();
-    expectMatchingWithOptions(
-      expected,
-      response.result,
-      { allowExtra: true, isOrdered: false, checkValues: false }
-    );
-  });
-
-  it('should Test deleteOrgNacPortal', async () => {
-    const orgId = '000000ab-00ab-00ab-00ab-0000000000ab';
-
-    const nacportalId = '000000ab-00ab-00ab-00ab-0000000000ab';
-
-    const response = await makeApiCall(
-      () => controller.deleteOrgNacPortal(orgId, nacportalId)
-    );
-
-    expect(response.statusCode).toBe(200);
-  });
-
   it('should Test listOrgNacPortalSsoLatestFailures', async () => {
     const orgId = '000000ab-00ab-00ab-00ab-0000000000ab';
 
@@ -273,17 +273,13 @@ describe('OrgsNACPortalsController', () => {
     );
   });
 
-  it('should Test updateOrgNacPortalTempalte', async () => {
+  it('should Test deleteOrgNacPortalImage', async () => {
     const orgId = '000000ab-00ab-00ab-00ab-0000000000ab';
 
     const nacportalId = '000000ab-00ab-00ab-00ab-0000000000ab';
 
     const response = await makeApiCall(
-      () => controller.updateOrgNacPortalTempalte(
-        orgId,
-        nacportalId,
-        undefined
-      )
+      () => controller.deleteOrgNacPortalImage(orgId, nacportalId)
     );
 
     expect(response.statusCode).toBe(200);
@@ -306,13 +302,17 @@ describe('OrgsNACPortalsController', () => {
     expect(response.statusCode).toBe(200);
   });
 
-  it('should Test deleteOrgNacPortalImage', async () => {
+  it('should Test updateOrgNacPortalTempalte', async () => {
     const orgId = '000000ab-00ab-00ab-00ab-0000000000ab';
 
     const nacportalId = '000000ab-00ab-00ab-00ab-0000000000ab';
 
     const response = await makeApiCall(
-      () => controller.deleteOrgNacPortalImage(orgId, nacportalId)
+      () => controller.updateOrgNacPortalTempalte(
+        orgId,
+        nacportalId,
+        undefined
+      )
     );
 
     expect(response.statusCode).toBe(200);

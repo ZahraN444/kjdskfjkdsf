@@ -80,6 +80,86 @@ export class OrgsNACPortalsController extends BaseController {
   }
 
   /**
+   * Create Org NAC Portal
+   *
+   * @param orgId
+   * @param body
+   * @return Response from the API call
+   */
+  async createOrgNacPortal(
+    orgId: string,
+    body?: NacPortal,
+    requestOptions?: RequestOptions
+  ): Promise<ApiResponse<NacPortal>> {
+    const req = this.createRequest('POST');
+    const mapped = req.prepareArgs({
+      orgId: [orgId, string()],
+      body: [body, optional(nacPortalSchema)],
+    });
+    req.header('Content-Type', 'application/json');
+    req.json(mapped.body);
+    req.appendTemplatePath`/api/v1/orgs/${mapped.orgId}/nacportals`;
+    req.throwOn(400, ApiV1OrgsNacportals400Error, 'Bad Syntax');
+    req.throwOn(401, ApiV1OrgsNacportals401Error, 'Unauthorized');
+    req.throwOn(403, ApiV1OrgsNacportals403Error, 'Permission Denied');
+    req.throwOn(
+      404,
+      ResponseHttp404Error,
+      'Not found. The API endpoint doesnâ€™t exist or resource doesnâ€™ t exist'
+    );
+    req.throwOn(
+      429,
+      ApiV1OrgsNacportals429Error,
+      'Too Many Request. The API Token used for the request reached the 5000 API Calls per hour threshold'
+    );
+    req.authenticate([
+      { apiToken: true },
+      { basicAuth: true },
+      { basicAuth: true, csrfToken: true },
+    ]);
+    return req.callAsJson(nacPortalSchema, requestOptions);
+  }
+
+  /**
+   * Delete Org NAC Portal
+   *
+   * @param orgId
+   * @param nacportalId
+   * @return Response from the API call
+   */
+  async deleteOrgNacPortal(
+    orgId: string,
+    nacportalId: string,
+    requestOptions?: RequestOptions
+  ): Promise<ApiResponse<void>> {
+    const req = this.createRequest('DELETE');
+    const mapped = req.prepareArgs({
+      orgId: [orgId, string()],
+      nacportalId: [nacportalId, string()],
+    });
+    req.appendTemplatePath`/api/v1/orgs/${mapped.orgId}/nacportals/${mapped.nacportalId}`;
+    req.throwOn(400, ApiV1OrgsNacportals400Error, 'Bad Syntax');
+    req.throwOn(401, ApiV1OrgsNacportals401Error, 'Unauthorized');
+    req.throwOn(403, ApiV1OrgsNacportals403Error, 'Permission Denied');
+    req.throwOn(
+      404,
+      ResponseHttp404Error,
+      'Not found. The API endpoint doesnâ€™t exist or resource doesnâ€™ t exist'
+    );
+    req.throwOn(
+      429,
+      ApiV1OrgsNacportals429Error,
+      'Too Many Request. The API Token used for the request reached the 5000 API Calls per hour threshold'
+    );
+    req.authenticate([
+      { apiToken: true },
+      { basicAuth: true },
+      { basicAuth: true, csrfToken: true },
+    ]);
+    return req.call(requestOptions);
+  }
+
+  /**
    * Get Org NAC Portal
    *
    * @param orgId
@@ -163,86 +243,6 @@ export class OrgsNACPortalsController extends BaseController {
   }
 
   /**
-   * Create Org NAC Portal
-   *
-   * @param orgId
-   * @param body
-   * @return Response from the API call
-   */
-  async createOrgNacPortal(
-    orgId: string,
-    body?: NacPortal,
-    requestOptions?: RequestOptions
-  ): Promise<ApiResponse<NacPortal>> {
-    const req = this.createRequest('POST');
-    const mapped = req.prepareArgs({
-      orgId: [orgId, string()],
-      body: [body, optional(nacPortalSchema)],
-    });
-    req.header('Content-Type', 'application/json');
-    req.json(mapped.body);
-    req.appendTemplatePath`/api/v1/orgs/${mapped.orgId}/nacportals`;
-    req.throwOn(400, ApiV1OrgsNacportals400Error, 'Bad Syntax');
-    req.throwOn(401, ApiV1OrgsNacportals401Error, 'Unauthorized');
-    req.throwOn(403, ApiV1OrgsNacportals403Error, 'Permission Denied');
-    req.throwOn(
-      404,
-      ResponseHttp404Error,
-      'Not found. The API endpoint doesnâ€™t exist or resource doesnâ€™ t exist'
-    );
-    req.throwOn(
-      429,
-      ApiV1OrgsNacportals429Error,
-      'Too Many Request. The API Token used for the request reached the 5000 API Calls per hour threshold'
-    );
-    req.authenticate([
-      { apiToken: true },
-      { basicAuth: true },
-      { basicAuth: true, csrfToken: true },
-    ]);
-    return req.callAsJson(nacPortalSchema, requestOptions);
-  }
-
-  /**
-   * Delete Org NAC Portal
-   *
-   * @param orgId
-   * @param nacportalId
-   * @return Response from the API call
-   */
-  async deleteOrgNacPortal(
-    orgId: string,
-    nacportalId: string,
-    requestOptions?: RequestOptions
-  ): Promise<ApiResponse<void>> {
-    const req = this.createRequest('DELETE');
-    const mapped = req.prepareArgs({
-      orgId: [orgId, string()],
-      nacportalId: [nacportalId, string()],
-    });
-    req.appendTemplatePath`/api/v1/orgs/${mapped.orgId}/nacportals/${mapped.nacportalId}`;
-    req.throwOn(400, ApiV1OrgsNacportals400Error, 'Bad Syntax');
-    req.throwOn(401, ApiV1OrgsNacportals401Error, 'Unauthorized');
-    req.throwOn(403, ApiV1OrgsNacportals403Error, 'Permission Denied');
-    req.throwOn(
-      404,
-      ResponseHttp404Error,
-      'Not found. The API endpoint doesnâ€™t exist or resource doesnâ€™ t exist'
-    );
-    req.throwOn(
-      429,
-      ApiV1OrgsNacportals429Error,
-      'Too Many Request. The API Token used for the request reached the 5000 API Calls per hour threshold'
-    );
-    req.authenticate([
-      { apiToken: true },
-      { basicAuth: true },
-      { basicAuth: true, csrfToken: true },
-    ]);
-    return req.call(requestOptions);
-  }
-
-  /**
    * Get List of Org NAC Portal SSO Latest Failures
    *
    * @param orgId
@@ -302,33 +302,31 @@ export class OrgsNACPortalsController extends BaseController {
   }
 
   /**
-   * Update Org NAC Portal Template
+   * Delete background image for NAC Portal
+   *
+   *
+   * If image is not uploaded or is deleted, NAC Portal will use default image.
    *
    * @param orgId
    * @param nacportalId
-   * @param body
    * @return Response from the API call
    */
-  async updateOrgNacPortalTempalte(
+  async deleteOrgNacPortalImage(
     orgId: string,
     nacportalId: string,
-    body?: NacPortalTemplate,
     requestOptions?: RequestOptions
   ): Promise<ApiResponse<void>> {
-    const req = this.createRequest('PUT');
+    const req = this.createRequest('DELETE');
     const mapped = req.prepareArgs({
       orgId: [orgId, string()],
       nacportalId: [nacportalId, string()],
-      body: [body, optional(nacPortalTemplateSchema)],
     });
-    req.header('Content-Type', 'application/json');
-    req.json(mapped.body);
-    req.appendTemplatePath`/api/v1/orgs/${mapped.orgId}/nacportals/${mapped.nacportalId}/portal_template`;
-    req.throwOn(400, ApiV1OrgsNacportalsPortalTemplate400Error, 'Bad Syntax');
-    req.throwOn(401, ApiV1OrgsNacportalsPortalTemplate401Error, 'Unauthorized');
+    req.appendTemplatePath`/api/v1/orgs/${mapped.orgId}/nacportals/${mapped.nacportalId}/portal_image`;
+    req.throwOn(400, ApiV1OrgsNacportalsPortalImage400Error, 'Bad Syntax');
+    req.throwOn(401, ApiV1OrgsNacportalsPortalImage401Error, 'Unauthorized');
     req.throwOn(
       403,
-      ApiV1OrgsNacportalsPortalTemplate403Error,
+      ApiV1OrgsNacportalsPortalImage403Error,
       'Permission Denied'
     );
     req.throwOn(
@@ -338,7 +336,7 @@ export class OrgsNACPortalsController extends BaseController {
     );
     req.throwOn(
       429,
-      ApiV1OrgsNacportalsPortalTemplate429Error,
+      ApiV1OrgsNacportalsPortalImage429Error,
       'Too Many Request. The API Token used for the request reached the 5000 API Calls per hour threshold'
     );
     req.authenticate([
@@ -399,31 +397,33 @@ export class OrgsNACPortalsController extends BaseController {
   }
 
   /**
-   * Delete background image for NAC Portal
-   *
-   *
-   * If image is not uploaded or is deleted, NAC Portal will use default image.
+   * Update Org NAC Portal Template
    *
    * @param orgId
    * @param nacportalId
+   * @param body
    * @return Response from the API call
    */
-  async deleteOrgNacPortalImage(
+  async updateOrgNacPortalTempalte(
     orgId: string,
     nacportalId: string,
+    body?: NacPortalTemplate,
     requestOptions?: RequestOptions
   ): Promise<ApiResponse<void>> {
-    const req = this.createRequest('DELETE');
+    const req = this.createRequest('PUT');
     const mapped = req.prepareArgs({
       orgId: [orgId, string()],
       nacportalId: [nacportalId, string()],
+      body: [body, optional(nacPortalTemplateSchema)],
     });
-    req.appendTemplatePath`/api/v1/orgs/${mapped.orgId}/nacportals/${mapped.nacportalId}/portal_image`;
-    req.throwOn(400, ApiV1OrgsNacportalsPortalImage400Error, 'Bad Syntax');
-    req.throwOn(401, ApiV1OrgsNacportalsPortalImage401Error, 'Unauthorized');
+    req.header('Content-Type', 'application/json');
+    req.json(mapped.body);
+    req.appendTemplatePath`/api/v1/orgs/${mapped.orgId}/nacportals/${mapped.nacportalId}/portal_template`;
+    req.throwOn(400, ApiV1OrgsNacportalsPortalTemplate400Error, 'Bad Syntax');
+    req.throwOn(401, ApiV1OrgsNacportalsPortalTemplate401Error, 'Unauthorized');
     req.throwOn(
       403,
-      ApiV1OrgsNacportalsPortalImage403Error,
+      ApiV1OrgsNacportalsPortalTemplate403Error,
       'Permission Denied'
     );
     req.throwOn(
@@ -433,7 +433,7 @@ export class OrgsNACPortalsController extends BaseController {
     );
     req.throwOn(
       429,
-      ApiV1OrgsNacportalsPortalImage429Error,
+      ApiV1OrgsNacportalsPortalTemplate429Error,
       'Too Many Request. The API Token used for the request reached the 5000 API Calls per hour threshold'
     );
     req.authenticate([

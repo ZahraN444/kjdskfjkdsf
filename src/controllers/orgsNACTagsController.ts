@@ -16,45 +16,6 @@ import { ResponseHttp404Error } from '../errors/responseHttp404Error';
 
 export class OrgsNACTagsController extends BaseController {
   /**
-   * Get Org NAC Tag
-   *
-   * @param orgId
-   * @param nactagId
-   * @return Response from the API call
-   */
-  async getOrgNacTag(
-    orgId: string,
-    nactagId: string,
-    requestOptions?: RequestOptions
-  ): Promise<ApiResponse<NacTag>> {
-    const req = this.createRequest('GET');
-    const mapped = req.prepareArgs({
-      orgId: [orgId, string()],
-      nactagId: [nactagId, string()],
-    });
-    req.appendTemplatePath`/api/v1/orgs/${mapped.orgId}/nactags/${mapped.nactagId}`;
-    req.throwOn(400, ApiV1OrgsNactags400Error, 'Bad Syntax');
-    req.throwOn(401, ApiV1OrgsNactags401Error, 'Unauthorized');
-    req.throwOn(403, ApiV1OrgsNactags403Error, 'Permission Denied');
-    req.throwOn(
-      404,
-      ResponseHttp404Error,
-      'Not found. The API endpoint doesnâ€™t exist or resource doesnâ€™ t exist'
-    );
-    req.throwOn(
-      429,
-      ApiV1OrgsNactags429Error,
-      'Too Many Request. The API Token used for the request reached the 5000 API Calls per hour threshold'
-    );
-    req.authenticate([
-      { apiToken: true },
-      { basicAuth: true },
-      { basicAuth: true, csrfToken: true },
-    ]);
-    return req.callAsJson(nacTagSchema, requestOptions);
-  }
-
-  /**
    * Get List of Org NAC Tags
    *
    * @param orgId
@@ -111,6 +72,47 @@ export class OrgsNACTagsController extends BaseController {
   }
 
   /**
+   * Create Org NAC Tag
+   *
+   * @param orgId
+   * @param body
+   * @return Response from the API call
+   */
+  async createOrgNacTag(
+    orgId: string,
+    body?: NacTag,
+    requestOptions?: RequestOptions
+  ): Promise<ApiResponse<NacTag>> {
+    const req = this.createRequest('POST');
+    const mapped = req.prepareArgs({
+      orgId: [orgId, string()],
+      body: [body, optional(nacTagSchema)],
+    });
+    req.header('Content-Type', 'application/json');
+    req.json(mapped.body);
+    req.appendTemplatePath`/api/v1/orgs/${mapped.orgId}/nactags`;
+    req.throwOn(400, ApiV1OrgsNactags400Error, 'Bad Syntax');
+    req.throwOn(401, ApiV1OrgsNactags401Error, 'Unauthorized');
+    req.throwOn(403, ApiV1OrgsNactags403Error, 'Permission Denied');
+    req.throwOn(
+      404,
+      ResponseHttp404Error,
+      'Not found. The API endpoint doesnâ€™t exist or resource doesnâ€™ t exist'
+    );
+    req.throwOn(
+      429,
+      ApiV1OrgsNactags429Error,
+      'Too Many Request. The API Token used for the request reached the 5000 API Calls per hour threshold'
+    );
+    req.authenticate([
+      { apiToken: true },
+      { basicAuth: true },
+      { basicAuth: true, csrfToken: true },
+    ]);
+    return req.callAsJson(nacTagSchema, requestOptions);
+  }
+
+  /**
    * Delete Org NAC Tag
    *
    * @param orgId
@@ -150,27 +152,22 @@ export class OrgsNACTagsController extends BaseController {
   }
 
   /**
-   * Update Org NAC Tag
+   * Get Org NAC Tag
    *
    * @param orgId
    * @param nactagId
-   * @param body
    * @return Response from the API call
    */
-  async updateOrgNacTag(
+  async getOrgNacTag(
     orgId: string,
     nactagId: string,
-    body?: NacTag,
     requestOptions?: RequestOptions
   ): Promise<ApiResponse<NacTag>> {
-    const req = this.createRequest('PUT');
+    const req = this.createRequest('GET');
     const mapped = req.prepareArgs({
       orgId: [orgId, string()],
       nactagId: [nactagId, string()],
-      body: [body, optional(nacTagSchema)],
     });
-    req.header('Content-Type', 'application/json');
-    req.json(mapped.body);
     req.appendTemplatePath`/api/v1/orgs/${mapped.orgId}/nactags/${mapped.nactagId}`;
     req.throwOn(400, ApiV1OrgsNactags400Error, 'Bad Syntax');
     req.throwOn(401, ApiV1OrgsNactags401Error, 'Unauthorized');
@@ -194,25 +191,28 @@ export class OrgsNACTagsController extends BaseController {
   }
 
   /**
-   * Create Org NAC Tag
+   * Update Org NAC Tag
    *
    * @param orgId
+   * @param nactagId
    * @param body
    * @return Response from the API call
    */
-  async createOrgNacTag(
+  async updateOrgNacTag(
     orgId: string,
+    nactagId: string,
     body?: NacTag,
     requestOptions?: RequestOptions
   ): Promise<ApiResponse<NacTag>> {
-    const req = this.createRequest('POST');
+    const req = this.createRequest('PUT');
     const mapped = req.prepareArgs({
       orgId: [orgId, string()],
+      nactagId: [nactagId, string()],
       body: [body, optional(nacTagSchema)],
     });
     req.header('Content-Type', 'application/json');
     req.json(mapped.body);
-    req.appendTemplatePath`/api/v1/orgs/${mapped.orgId}/nactags`;
+    req.appendTemplatePath`/api/v1/orgs/${mapped.orgId}/nactags/${mapped.nactagId}`;
     req.throwOn(400, ApiV1OrgsNactags400Error, 'Bad Syntax');
     req.throwOn(401, ApiV1OrgsNactags401Error, 'Unauthorized');
     req.throwOn(403, ApiV1OrgsNactags403Error, 'Permission Denied');
